@@ -14,7 +14,9 @@ const Home = () => {
 			<h1>My List</h1>
 			<ul>
 				<li>
-					<input type="text" 
+					<input 
+					id="myInput"
+					type="text" 
 					onChange={(e)=> SetInputValue(e.target.value)} 
 					value={inputValue}
 					onKeyPress={(e) => { 
