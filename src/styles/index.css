@@ -29,18 +29,15 @@ input{
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  .animate-icon:hover {
-    animation: spin 2s linear;
-    color: red;
-  }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-icon:hover {
+  animation: spin 2s linear;
+  color: red;
+}
 
  .animate-icon{
     color: aqua;
  }
-  
-  
-  

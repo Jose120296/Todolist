@@ -1,4 +1,6 @@
 import React, {useState} from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 //create your first component
 const Home = () => {
@@ -28,18 +30,19 @@ const Home = () => {
 					placeholder="What do you need to do?"></input>
 				</li>
 				{todos.map ((item, index) => (
-					<li key={index}>
-					{item}{" "}
-					<i
-					  className="fa-solid fa-trash my-icon animate-icon"
-					  onClick={() =>
-						setTodos(
-							todos.filter(
-								(t, currentIndex) => 
-								index !== currentIndex))
-					  }
-					></i>
-				  	</li>
+                    <li key={index}>
+                    {item}{" "}
+                    <FontAwesomeIcon 
+                      icon={faTrash}
+                      className="animate-icon"
+                      onClick={() =>
+                        SetTodos(
+                            todos.filter(
+                                (t, currentIndex) => 
+                                index !== currentIndex))
+                      }
+                    />
+                    </li>
 				))}
 			</ul>
 			<div>{todos.length} tasks</div>
