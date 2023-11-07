@@ -4,8 +4,8 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 //create your first component
 const Home = () => {
-	const[inputValue, SetInputValue] = useState("");
-	const[todos, SetTodos ]= useState ([]);
+	const[inputValue, setInputValue] = useState("");
+	const[todos, setTodos ]= useState ([]);
 
 	//Add into array => concat
 	//Delate from array => filter 
@@ -19,24 +19,24 @@ const Home = () => {
 					<input 
 					id="myInput"
 					type="text" 
-					onChange={(e)=> SetInputValue(e.target.value)} 
+					onChange={(e)=> setInputValue(e.target.value)} 
 					value={inputValue}
 					onKeyPress={(e) => { 
 						if (e.key=== "Enter") {
-							SetTodos(todos.concat(inputValue)); 
-							SetInputValue("") 
+							setTodos(todos.concat(inputValue)); 
+							setInputValue("") 
 						}
 					}}
-					placeholder="What do you need to do?"></input>
+					placeholder="Asigna una tarea."></input>
 				</li>
 				{todos.map ((item, index) => (
                     <li key={index}>
                     {item}{" "}
                     <FontAwesomeIcon 
                       icon={faTrash}
-                      className="animate-icon"
+                      className="animate-icon hidden-icon"
                       onClick={() =>
-                        SetTodos(
+                        setTodos(
                             todos.filter(
                                 (t, currentIndex) => 
                                 index !== currentIndex))
@@ -49,5 +49,6 @@ const Home = () => {
 		</div>
 	);
 };
+
 
 export default Home;
