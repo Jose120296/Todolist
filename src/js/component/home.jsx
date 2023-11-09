@@ -21,7 +21,7 @@ const Home = () => {
 					type="text" 
 					onChange={(e)=> setInputValue(e.target.value)} 
 					value={inputValue}
-					onKeyPress={(e) => { 
+					onKeyDown={(e) => { 
 						if (e.key=== "Enter") {
 							setTodos(todos.concat(inputValue)); 
 							setInputValue("") 
@@ -46,6 +46,7 @@ const Home = () => {
 				))}
 			</ul>
 			<div>{todos.length} tasks</div>
+			<div>No hay tareas, agrega una.</div>
 		</div>
 	);
 };
