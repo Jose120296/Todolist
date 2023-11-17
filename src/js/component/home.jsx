@@ -5,6 +5,8 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 const Home = () => {
   const [inputValue, setInputValue] = useState("");
   const [todos, setTodos] = useState([]);
+  const [apiData, SetapiData] = useState([]);
+  
 
   return (
     <div className="container">
@@ -44,6 +46,7 @@ const Home = () => {
         )}
       </ul>
       <div>{todos.length} tasks</div>
+      
     </div>
   );
 };
