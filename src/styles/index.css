@@ -60,4 +60,6 @@ li:hover .animate-icon.hidden-icon {
 
 .delete-all-button {
   margin-top: 10px;
+  display: flex;
+  margin: auto;
 }

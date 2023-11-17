@@ -52,7 +52,7 @@ const Home = () => {
 			 className="delete-all-button"
 			 onClick={() => setTodos([])}
 		   >
-			 Eliminar todas las tareas
+			Delete all.
 		   </button>
 		 )}
 		</div>
