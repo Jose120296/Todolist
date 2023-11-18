@@ -6,7 +6,8 @@ const Home = () => {
   const [inputValue, setInputValue] = useState("");
   const [todos, setTodos] = useState([]);
   const [apiData, SetapiData] = useState([]);
-  const [showButton, setShowButton] = useState(false);
+  const [setShowButton] = useState(false);
+
 
   return (
 		<div className="container">
@@ -47,15 +48,15 @@ const Home = () => {
 			)}
 		  </ul>
 		  <div>{todos.length} tasks</div>
-		 {showButton && (
-		   <button
-			 className="delete-all-button"
-			 onClick={() => setTodos([])}
-		   >
-			Delete all.
-		   </button>
-		 )}
-		</div>
+		   {todos.length >= 5 && (
+			<button
+			  className="delete-all-button animated-button"
+			  onClick={() => setTodos([])}
+			>
+			  Delete All
+			</button>
+		  )}
+		</div>  
 	  );
 	};
 	

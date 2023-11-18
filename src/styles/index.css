@@ -59,7 +59,36 @@ li:hover .animate-icon.hidden-icon {
 }
 
 .delete-all-button {
-  margin-top: 10px;
-  display: flex;
-  margin: auto;
+  margin: center;
 }
+
+.animated-button {
+  background-color: #4CAF50; /* Color original del botón */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  transition: background-color 1s ease; /* Transición suave del color de fondo */
+  animation: mymove 5s infinite; /* Animación */
+}
+
+.animated-button:hover {
+  background-color: red; /* Color del botón cuando el mouse está encima */
+  color: white;
+}
+
+/* Animación */
+@keyframes mymove {
+  0%   {top: 0px;}
+  25%  {top: 200px;}
+  50%  {top: 100px;}
+  75%  {top: 200px;}
+  100% {top: 0px;}
+}
+
+
