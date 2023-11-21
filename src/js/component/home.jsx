@@ -11,7 +11,7 @@ const Home = () => {
 		
 const crearUsuario = async () => {
 		try {
-			const response = await fetch("https://playground.4geeks.com/apis/fake/todos/JoseEnrique",
+			const response = await fetch("https://playground.4geeks.com/apis/fake/todos/user/JoseEnrique",
 				{
 					method: "POST",
 					headers: {
@@ -28,8 +28,8 @@ const crearUsuario = async () => {
 			console.error("Error al crear el usuario:", error);
 		}
 	};
-
-	const handleDeleteTasks = async () => {
+	
+const handleDeleteTasks = async (index) => {	
 		try{
 			setIsDeleting(true);
 
@@ -46,9 +46,7 @@ const crearUsuario = async () => {
 		}
 	};		
 
-	
-
-	const handleDeleteAll = async () => {
+const handleDeleteAll = async () => {	
 	  try {
 		const response = await fetch(
 		  "https://playground.4geeks.com/apis/fake/todos/user/JoseEnrique",
@@ -68,7 +66,7 @@ const crearUsuario = async () => {
 	  }
 	};
 
-	const getTodos = async () => {
+const getTodos = async () => {	
 	  try {
 		const response = await fetch(
 		  "https://playground.4geeks.com/apis/fake/todos/user/JoseEnrique"
@@ -90,7 +88,7 @@ const crearUsuario = async () => {
 		}
 	};
 
-	const syncWithApi = async (updatedtodos) => {
+const syncWithApi = async (updatedtodos) => {	
 
 		try {
 			const response = await fetch("https://playground.4geeks.com/apis/fake/todos/user/JoseEnrique",
@@ -117,15 +115,15 @@ const crearUsuario = async () => {
 		}
 	};
 
-	const handleInputChange = (e) => {
+const handleInputChange = (e) => {
 		setInputValue(e.target.value);
 	};
 
-	const handleEnterKey = async (e) => {
+const handleEnterKey = async (e) => {	
 		if (e.key === "Enter" && inputValue.trim() !== "") {
 			const newTodos = {label: inputValue.trim(), done: false};
 
-			if (task.some((t) => t.label === newTodos.label)) {
+			if (todos.some((t) => todos.label === newTodos.label)) {
 				setErrorMessage("Task already exists");
 				return;
 			}
@@ -139,7 +137,7 @@ const crearUsuario = async () => {
 		}	
 	};
 
-	const remainingTasks =
+	const remainingTasks =	
 		todos.filter((todos) => todos.label && todos.label.trim() !== "").length -1;
 		
 	useEffect(() => {
@@ -154,18 +152,15 @@ const crearUsuario = async () => {
 		  </div>
 		  <ul>
 			<div>
-			  {inputValue === "" ? (
 				<input
 				  id="myInput"
 				  type="text"
+				  placeholder="Enter a Task"
 				  onChange={handleInputChange}
 				  value={inputValue}
 				  onKeyDown={handleEnterKey}
 				  autoComplete="off"
 				/>
-			  ) : (
-				<p>{inputValue}</p>
-			  )}
 			</div>
 			<div>
 			  {errorMessage && <p className="error-message">{errorMessage}</p>}
@@ -173,22 +168,25 @@ const crearUsuario = async () => {
 			{remainingTasks === 0 ? (
 			  <div className="task-counter">No tasks, add a task!</div>
 			) : (
-			  todos.map((item, index) =>
-				item.label !== "example task" ? (
-				  <li key={index}>
-					{item.label}
-					<FontAwesomeIcon
-					  icon={faTrash}
-					  className="animate-icon hidden-icon"
-					  onClick={() => handleDeleteTasks(index)}
-					/>
-				  </li>
-				) : null
-			  )
-			)}
+			todos.map((item, index) => (
+			  item.label !== "example task" && (
+			    <li key={index} className="task-item">
+			      {item.label}
+			      <FontAwesomeIcon
+			        icon={faTrash}
+			        className="animate-icon hidden-icon"
+			        onClick={() => handleDeleteTasks(index)}
+			      />
+			    </li>
+			  ))
+			))}
+			
 		  </ul>
-		  <div>{todos.length} tasks</div>
-		  {todos.length >= 5 && (
+		  {remainingTasks > 0 && (
+		  	<div>
+				{remainingTasks} {remainingTasks === 1 ? "task" : "tasks"} left
+			</div>
+			)}
 			<button
 			  className="delete-all-button animated-button"
 			  onClick={handleDeleteAll}
@@ -196,7 +194,6 @@ const crearUsuario = async () => {
 			>
 			  Delete All
 			</button>
-		  )}
 		</div>
 	  );
 	  }
