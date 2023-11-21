@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
@@ -32,8 +33,7 @@ const crearUsuario = async () => {
 		try{
 			setIsDeleting(true);
 
-			const updatedTodos = todos.filter((t, currentIndex) => index !== currentIndex
-			);
+			const updatedTodos = todos.filter((_, currentIndex) => index !== currentIndex);
 			console.log("updatedTodos", updatedTodos);
 			setTodos(updatedTodos);
 			await syncWithApi(updatedTodos);
@@ -46,28 +46,12 @@ const crearUsuario = async () => {
 		}
 	};		
 
-	const handleDeleteTasks2 = async (index) => {
-		try{
-			setIsDeleting(true);
-			const updatedTodos = todos.filter((t, currentIndex) => index !== currentIndex
-			);
-			console.log("updatedTodos", updatedTodos);
-			setTodos(updatedTodos);
-			await syncWithApi(updatedTodos);
-			await getTodos();
-		} catch (error) {
-			console.log("error en el handleDeleteTasks", error);
-		} finally {
-			setIsDeleting(false);
-			
-		}
-	};
 	
 
-	const handleDelete = async () => {
+	const handleDeleteAll = async () => {
 	  try {
 		const response = await fetch(
-		  "https://playground.4geeks.com/apis/fake/todos/JoseEnrique",
+		  "https://playground.4geeks.com/apis/fake/todos/user/JoseEnrique",
 		  {
 			method: "Delete",
 			headers: {
@@ -87,7 +71,7 @@ const crearUsuario = async () => {
 	const getTodos = async () => {
 	  try {
 		const response = await fetch(
-		  "https://playground.4geeks.com/apis/fake/todos/JoseEnrique"
+		  "https://playground.4geeks.com/apis/fake/todos/user/JoseEnrique"
 		);
 		
 		if (response.status === 404) {
@@ -109,7 +93,7 @@ const crearUsuario = async () => {
 	const syncWithApi = async (updatedtodos) => {
 
 		try {
-			const response = await fetch("https://playground.4geeks.com/apis/fake/todos/JoseEnrique",
+			const response = await fetch("https://playground.4geeks.com/apis/fake/todos/user/JoseEnrique",
 			{
 				method: "PUT",
 				headers: {
@@ -134,7 +118,7 @@ const crearUsuario = async () => {
 	};
 
 	const handleInputChange = (e) => {
-		setInputValue(e,target.value);
+		setInputValue(e.target.value);
 	};
 
 	const handleEnterKey = async (e) => {
@@ -155,49 +139,66 @@ const crearUsuario = async () => {
 		}	
 	};
 
-  	return (
-	<div className="container">
-		<div>	
-	  	<h1>My List</h1>
-		</div>  
-	  <ul>
-		<div>
-		  <input
-			id="myInput"
-			type="text"
-			onChange={handleInputChange}
-			value={inputValue}
-			onKeyDown={handleEnterKey}
-			placeholder="Asigna una tarea."
-		  />
-		</div>
-  
-		{todos.length === 0 ? (
-		  <div className="task-counter">No tasks, add a task!</div>
-		) : (
-		  todos.map((item, index) => (
-			<li key={index}>
-			  {item}{" "}
-			  <FontAwesomeIcon
-				icon={faTrash}
-				className="animate-icon hidden-icon"
-				onClick={() => handleDeleteTasks}
-			  />
-			</li>
-		  ))
-		)}
-	  </ul>
-	  <div>{todos.length} tasks</div>
-	  {todos.length >= 5 && (
-		<button
-		  className="delete-all-button animated-button"
-		  onClick={() => handleDelete([])}
-		>
-		  Delete All
-		</button>
-	  )}
-	</div>
-  );
- }
+	const remainingTasks =
+		todos.filter((todos) => todos.label && todos.label.trim() !== "").length -1;
+		
+	useEffect(() => {
+		getTodos();
+	}, []);
+	
 
-export default Home;
+	return (
+		<div className="container">
+		  <div>
+			<h1>My List</h1>
+		  </div>
+		  <ul>
+			<div>
+			  {inputValue === "" ? (
+				<input
+				  id="myInput"
+				  type="text"
+				  onChange={handleInputChange}
+				  value={inputValue}
+				  onKeyDown={handleEnterKey}
+				  autoComplete="off"
+				/>
+			  ) : (
+				<p>{inputValue}</p>
+			  )}
+			</div>
+			<div>
+			  {errorMessage && <p className="error-message">{errorMessage}</p>}
+			</div>
+			{remainingTasks === 0 ? (
+			  <div className="task-counter">No tasks, add a task!</div>
+			) : (
+			  todos.map((item, index) =>
+				item.label !== "example task" ? (
+				  <li key={index}>
+					{item.label}
+					<FontAwesomeIcon
+					  icon={faTrash}
+					  className="animate-icon hidden-icon"
+					  onClick={() => handleDeleteTasks(index)}
+					/>
+				  </li>
+				) : null
+			  )
+			)}
+		  </ul>
+		  <div>{todos.length} tasks</div>
+		  {todos.length >= 5 && (
+			<button
+			  className="delete-all-button animated-button"
+			  onClick={handleDeleteAll}
+			  disabled={isDeleting}
+			>
+			  Delete All
+			</button>
+		  )}
+		</div>
+	  );
+	  }
+	  
+	  export default Home;
